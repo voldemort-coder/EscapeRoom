@@ -1,9 +1,24 @@
 from tkinter import Tk, Label, Button, Frame
 from PIL import Image, ImageTk
+import pygame                                   #pentru sunet
+
+
+
+def seteaza_fundal():
+    global fundal_horror_tk
+    imagine_fundal= Image.open("fundalhorror.jpg")                                              #deschiderea imaginii de fundal
+    imagine_fundal= imagine_fundal.resize((900,600), Image.Resampling.LANCZOS)             #i.r.l utilizata pt a mentine calitatea imaginii in timpul redimensionarii
+    imagine_fundal_tk=ImageTk.PhotoImage(imagine_fundal)                                        #convertirea imaginii intr un obiect tkinter compatinil necesar pt afisare in tkinter
+    label_fundal=Label(radacina, image=imagine_fundal_tk)                                    #cream un widget label care contine imaginea ca fundal, poate afisa atat texte cat si imagini
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)                                       #x,y=0 seteaza pozitita din coltul stanga sus, iar rw,rh=1 asigura ca img ocupa intreaga fereastra
+    radacina.fundal_ref=imagine_fundal_tk                                                       #saalvam referinta imaginii in obiectul radacine pt ca tkinter elimina automat imaginile fara referinta
+
+
 
 def incepe_joc():
     for widget in radacina.winfo_children():
         widget.destroy()
+    seteaza_fundal()
     introducere()
     afiseaza_imagine_tkinter("casa_mare.png")
     adauga_butoane_dupa_imagine()
@@ -103,7 +118,8 @@ def adauga_butoane_dupa_imagine():
         text="Intră în casă",
         font=("Arial", 14),
         bg="blue",
-        fg="white"
+        fg="white",
+        command=usa_incuiata
     )
     buton_intra_casa.pack(side="left", padx=5)
 
@@ -138,10 +154,37 @@ def castiga_joc():
         pady=50,
         fg="green"
     ).pack()
-    afiseaza_imagine_tkinter("working,png.jpg")
+    afiseaza_imagine_tkinter("working.png")
+
+
+def usa_incuiata():
+    pygame.mixer.init()
+    sunet_incuiere=pygame.mixer.Sound("door_locked.mp3")
+    sunet_incuiere.play()
+
+    continua_joc()
+    seteaza_fundal()
+
+    Label(
+        radacina,
+        text=("Te-ai speriat foarte tare auzind o bubuitură și \n ai realizat că ești încuiaț.\n"
+               "\n\nÎncepi să te panichezi și vrei să deschizi ușa."),
+        font=("Lucida Handwriting", 21),
+        pady=20,
+        fg="black"
+    ).pack()
+
+    buton_deschide_usa=Button(
+        text="Încearcă să deschizi ușa",
+        font=("Arial", 21),
+        bg="purple",
+        fg="white"
+    )
+    buton_deschide_usa.pack(pady=45)
 
 radacina=Tk()                               #creeaza fereastra principala a aplicatiei
 radacina.title("Escape Room")               #seteaza titlul ferestrei
 radacina.geometry("900x600")                #seteaza dimensiunea ferestrei in pixeli
+seteaza_fundal()
 meniu_principal()
 radacina.mainloop()                         #mentine aplicatia deschisa si interactiva
