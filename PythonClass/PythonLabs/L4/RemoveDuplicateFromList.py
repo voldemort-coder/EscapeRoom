@@ -1,14 +1,12 @@
 while True:
     try:
-        user_input = input("Introduceți o listă de numere separate prin spații : ").strip()
+        user_input = input("Introduceți o listă de elemente: ").strip()
+        filtered_input = ''.join(filter(lambda x: x.isalnum() or x.isspace(), user_input))
+        unique_elements = list(set(filtered_input.split()))
+        result = ' #'.join(unique_elements)
 
-        num_list = [int(num) for num in user_input.split()]
+        print(f"Lista fără duplicate: #{result}")
 
-        unique_list = []
-        for num in num_list:
-            if num not in unique_list:
-                unique_list.append(num)                       #append(num) este o metodă a listei în Python care adaugă un element la sfârșitul listei
-        print("Lista fără duplicate:", unique_list)
+    except Exception as e:
+        print("Eroare:", e)
 
-    except ValueError:
-        print("Eroare! Introduceți doar numere separate prin spații.")
