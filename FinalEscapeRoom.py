@@ -199,7 +199,7 @@ radacina.mainloop()                         #mentine aplicatia deschisa si inter
 
 from tkinter import Tk, Label, Button, Frame
 from PIL import Image, ImageTk
-import pygame  # pentru sunet
+import pygame
 
 def seteaza_fundal():
     global fundal_horror_tk
@@ -221,75 +221,63 @@ def incepe_joc():
 def inchide_joc():
     radacina.destroy()
 
-# Eticheta de intampinare (TITLUL)
 def meniu_principal():
-    frame_meniu = Frame(radacina, bg="black")
-    frame_meniu.pack(expand=True, fill="both")
+    # Container principal pentru centrare și organizare
+    frame_meniu = Frame(radacina, bg="black", pady=20)
+    frame_meniu.pack(expand=True)
 
-    # Eticheta titlu
     label_bine_venit = Label(
         frame_meniu,
         text="Bine ai venit în Escape Room",
-        font=("Arial", 27, "bold"),
-        pady=20,
-        bg="black",
-        fg="red"
+        font=("Arial", 27),
+        pady=10
     )
-    label_bine_venit.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
+    label_bine_venit.pack()
 
-    # Eticheta cu instrucțiuni
     label_instruc = Label(
         frame_meniu,
-        text=(
-            "Scopul jocului este să rezolvi puzzle-urile și să reușești să părăsești casa.\n"
-            "Ești pregătit să începi?"
-        ),
+        text=("Scopul jocului este să rezolvi puzzle-urile și să reușești să părăsești casa.\n"
+              "Ești pregătit să începi?"),
         font=("Arial", 19),
-        bg="black",
-        fg="white"
+        pady=10
     )
-    label_instruc.grid(row=1, column=0, columnspan=2, pady=20)
+    label_instruc.pack()
 
-    # Butoane
+    frame_butoane = Frame(frame_meniu, bg="black")
+    frame_butoane.pack(pady=10)
+
     buton_start = Button(
-        frame_meniu,
+        frame_butoane,
         text="Start",
         font=("Arial", 14),
         width=12,
-        height=2,
         command=incepe_joc,
         bg="green",
         fg="white"
     )
-    buton_start.grid(row=2, column=0, padx=10, pady=20, sticky="e")
+    buton_start.grid(row=0, column=0, padx=5)
 
     buton_exit = Button(
-        frame_meniu,
+        frame_butoane,
         text="Exit",
         font=("Arial", 14),
         width=12,
-        height=2,
         command=inchide_joc,
         bg="red",
         fg="white"
     )
-    buton_exit.grid(row=2, column=1, padx=10, pady=20, sticky="w")
+    buton_exit.grid(row=0, column=1, padx=5)
 
 def introducere():
-    # Adaugam textul introductiv in fereastra
     label_intro = Label(
         radacina,
-        text=(
-            "Te trezești brusc într-o curte necunoscută. Totul este învăluit de liniște.\n"
-            "Ești amețit și confuz, iar în fața ta observi o casă mare și impunătoare.\n"
-            "Pare singura opțiune... Ce vei face?"
-        ),
+        text=("Te trezești brusc într-o curte necunoscută. Totul este învăluit de liniște.\n"
+              "Ești amețit și confuz, iar în fața ta observi o casă mare și impunătoare.\n"
+              "Pare singura opțiune... Ce vei face?"),
         font=("Lucida Handwriting", 15),
-        bg="black",
-        fg="white",
-        pady=20
+        pady=10
     )
-    label_intro.pack()
+    label_intro.pack(pady=10)
 
 def afiseaza_imagine_tkinter(cale_imagine):
     try:
@@ -300,14 +288,12 @@ def afiseaza_imagine_tkinter(cale_imagine):
         label_imagine = Label(radacina, image=imagine_tk, bg="black")
         label_imagine.pack(pady=10)
     except FileNotFoundError:
-        Label(radacina, text="Imaginea nu a fost găsită!", font=("Arial", 12), fg="red", bg="black").pack()
+        Label(radacina, text="Imaginea nu a fost găsită!", font=("Arial", 12), fg="red").pack()
 
 def adauga_butoane_dupa_imagine():
-    # Cream un frame pentru a organiza butoanele pe acelasi rand
     frame_butoane = Frame(radacina, bg="black")
     frame_butoane.pack(pady=10)
 
-    # Buton de intrat in casa
     buton_intra_casa = Button(
         frame_butoane,
         text="Intră în casă",
@@ -316,9 +302,8 @@ def adauga_butoane_dupa_imagine():
         fg="white",
         command=usa_incuiata
     )
-    buton_intra_casa.grid(row=0, column=0, padx=10)
+    buton_intra_casa.pack(side="left", padx=5)
 
-    # Buton de fuga
     buton_fugi = Button(
         frame_butoane,
         text="Fugi cât te țin picioarele",
@@ -327,15 +312,15 @@ def adauga_butoane_dupa_imagine():
         fg="black",
         command=castiga_joc
     )
-    buton_fugi.grid(row=0, column=1, padx=10)
+    buton_fugi.pack(side="left", padx=5)
+
 
 def continua_joc():
-    # Curățăm ecranul și pregătim scena următoare (placeholder pentru jocul care continuă)
+    #curățăm ecranul și pregătim scena următoare (placeholder pentru jocul care continuă)
     for widget in radacina.winfo_children():
         widget.destroy()
 
 def castiga_joc():
-    # Afișăm mesajul "Felicitări, ai câștigat" și imaginea
     for widget in radacina.winfo_children():
         widget.destroy()
     seteaza_fundal()
@@ -343,37 +328,53 @@ def castiga_joc():
         radacina,
         text="Felicitări, ai câștigat!",
         font=("Lucida Handwriting", 37),
-        pady=50,
-        fg="green",
-        bg="black"
-    ).pack()
+        pady=20,
+        fg="green"
+    ).pack(pady=20)
     afiseaza_imagine_tkinter("working.png")
+
 
 def usa_incuiata():
     pygame.mixer.init()
-    sunet_incuiere = pygame.mixer.Sound("door_locked.mp3")
-    sunet_incuiere.play()
 
+    # Sunetul de încercare a deschiderii ușii
+    sunet_incuiere = pygame.mixer.Sound("door_locked.mp3")
+    sunet_forta_usa = pygame.mixer.Sound("door_forced.mp3")  # Asigură-te că acest fișier există
+
+    sunet_incuiere.play()  # Redăm sunetul de ușă încuiată
+
+    # Afișăm textul după un mic delay
+    radacina.after(1000, lambda: sunet_forta_usa.play())  # Redăm sunetul de forțare după 1 secundă
+
+    # Curățăm ecranul pentru a adăuga mesajul
     continua_joc()
     seteaza_fundal()
 
+    # Text pentru scena de forțare a ușii
     Label(
         radacina,
-        text=("Te-ai speriat foarte tare auzind o bubuitură și \n ai realizat că ești încuiaț.\n"
-              "\n\nÎncepi să te panichezi și vrei să deschizi ușa."),
-        font=("Lucida Handwriting", 21),
+        text=(
+            "Încerci să deschizi ușa, dar aceasta nu se mișcă. \n"
+            "Pui mai multă forță, trăgând de clanță cu toată puterea...\n"
+            "Un scârțâit amenințător și un zgomot puternic de blocare te fac să te oprești.\n"
+            "Ușa este complet blocată. Poate ar trebui să începi să inspectezi casa."
+        ),
+        font=("Lucida Handwriting", 17),
         pady=20,
-        fg="white",
-        bg="black"
-    ).pack()
-
-    buton_deschide_usa = Button(
-        text="Încearcă să deschizi ușa",
-        font=("Arial", 21),
-        bg="purple",
         fg="white"
+    ).pack(pady=10)
+
+    # Adăugăm un buton pentru a continua explorarea casei
+    buton_continua = Button(
+        radacina,
+        text="Continuă să inspectezi casa",
+        font=("Arial", 16),
+        bg="blue",
+        fg="white",
+        command=incepe_joc  # Continuă jocul
     )
-    buton_deschide_usa.pack(pady=45)
+    buton_continua.pack(pady=20)
+
 
 radacina = Tk()
 radacina.title("Escape Room")
@@ -383,3 +384,5 @@ radacina.option_add("*Label.foreground", "white")
 seteaza_fundal()
 meniu_principal()
 radacina.mainloop()
+
+
