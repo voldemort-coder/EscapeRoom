@@ -12,6 +12,12 @@ def reda_sunet_fundal():
 def opreste_sunet_fundal():
     pygame.mixer.music.stop()
 
+def afisare_treptata(label, text, index=0, interval=50):
+    if index < len(text):
+        label.config(text=label.cget("text") + text[index])
+        radacina.after(interval, afisare_treptata, label, text, index + 1, interval)
+
+
 def seteaza_fundal():
     global fundal_horror_tk
     imagine_fundal = Image.open("fundalhorror.jpg")
@@ -86,17 +92,19 @@ def meniu_principal():
 def introducere():
     label_intro = Label(
         radacina,
-        text=("Te trezești brusc, cu inima bătând nebunește în piept. Capul îți zvâcnește de durere, \n"
-              "iar în jur totul e învăluit de o ceață densă și nefirească.\n"
-              " Aerul rece îți pătrunde în plămâni, iar mirosul de pământ ud și mucegai îți invadează nările. \n"
-              "Te ridici încet, amețit și nesigur, încercând să-ți recapeți echilibrul. \n"
-              "Nu-ți amintești cum ai ajuns aici, dar sentimentul apăsător de a fi urmărit îți dă fiori pe șira spinării..\n"
-              "Ești amețit și confuz, iar în fața ta observi o casă mare și impunătoare.\n"
-              "Pare singura opțiune... Ce vei face?"),
-        font=("Lucida Handwriting", 15),
+        text="",
+        font=("Lucida Handwriting", 21),
         pady=10
     )
     label_intro.pack(pady=10)
+    text_intro=("Te trezești brusc, cu inima bătând nebunește în piept. Capul îți zvâcnește de durere, \n"
+              "iar în jur totul e învăluit de o ceață densă și nefirească.\n"
+              " Aerul rece îți pătrunde în plămâni, iar mirosul de pământ ud și mucegai îți invadează nările. \n"
+              "Te ridici încet, amețit și nesigur, încercând să-ți recapeți echilibrul. \n"
+              "Nu-ți amintești cum ai ajuns aici, dar sentimentul apăsător de a fi urmărit îți dă fiori pe \n"
+              "șira spinării..Ești amețit și confuz, iar în fața ta observi o casă impunătoare.\n"
+              "Pare singura opțiune... Ce vei face?")
+    afisare_treptata(label_intro, text_intro, interval=50)
 
 def afiseaza_imagine_tkinter(cale_imagine):
     try:
@@ -159,20 +167,23 @@ def scena_usa_incuiata():
     continua_joc()
     seteaza_fundal()
 
-    Label(
+    text_scrisoare = (
+        "După ce citești scrisoarea, frica ta devine realitate. Simți o prezență nevăzută care te urmărește din umbre,\n"
+        " iar timpul pare să se scurgă tot mai repede. Respiri greu, dar știi că trebuie să mergi mai departe."
+        "Iei cu tine lumânarea pe care ai vazut-o, singura ta sursă de lumină. Cu flacăra tremurândă în mână,\n"
+        " faci un pas înainte. Nu te poți opri acum. Cineva – sau ceva – te urmărește."
+    )
+
+    label_scrisoare = Label(
         radacina,
-        text=(
-            "Odată ce ai pășit în casă, un zgomot asurzitor răsună din spatele tău, ca un tunet ce zguduie pereții \n"
-            "vechi și scârțâitori. Inima îți îngheață, iar un val de panică te împinge să alergi spre ușă.\n"
-            " Încerci să o deschizi disperat, dar e blocată, de parcă ceva invizibil te-ar ține captiv aici.\n"
-            "Respiri greu, iar umbra nesigură a unei lumânări pâlpâie pe peretele din fața ta. Un fior rece\n"
-            " îți traversează șira spinării când realizezi... singura cale este să continui să explorezi casa. \n"
-            "Însă cu fiecare pas, ai senzația că cineva – sau ceva – te privește din întuneric."
-        ),
-        font=("Lucida Handwriting", 17),
+        text="",  # Inițial, textul este gol
+        font=("Lucida Handwriting", 16),
+        wraplength=1100,
         pady=20,
         fg="white"
-    ).pack(pady=10)
+    )
+    label_scrisoare.pack()
+    afisare_treptata(label_scrisoare, text_scrisoare, interval=50)
 
     buton_continua = Button(
         radacina,
@@ -220,20 +231,24 @@ def scena_prima_proba():
     seteaza_fundal()
 
     # Textul introductiv
-    Label(
+    text_introductiv = (
+        "Te trezești într-o casă întunecată și înfricoșătoare. Pereții par să șoptească povești de groază, iar lumina\n"
+        " abia pătrunde prin ferestrele prăfuite. Totul în jur te face să simți un fior rece pe șira spinării.\n"
+        "Privirea îți cade asupra unei foi de hârtie aruncate lângă ușă. Este îngălbenită și pătată, ca și cum ar fi\n"
+        " fost acolo de ani de zile. Simți o curiozitate inexplicabilă, dar și o teamă care îți strânge inima.\n"
+        "Ce faci? Decizi să ridici hârtia și să o citești? Sau rămâi pe loc, întrebându-te ce se va întâmpla în continuare?"
+    )
+
+    label_introductiv = Label(
         radacina,
-        text=(
-            "Te trezești într-o casă întunecată și înfricoșătoare. Pereții par să șoptească povești de groază, iar lumina\n"
-            " abia pătrunde prin ferestrele prăfuite. Totul în jur te face să simți un fior rece pe șira spinării."
-            "Privirea îți cade asupra unei foi de hârtie aruncate lângă ușă. Este îngălbenită și pătată, ca și cum ar fi\n"
-            " fost acolo de ani de zile. Simți o curiozitate inexplicabilă, dar și o teamă care îți strânge inima.\n"
-            "Ce faci? Decizi să ridici hârtia și să o citești? Sau rămâi pe loc, întrebându-te ce se va întâmpla în continuare?"
-        ),
+        text="",  # Textul este inițial gol
         font=("Lucida Handwriting", 16),
         wraplength=1100,
         pady=20,
         fg="white"
-    ).pack()
+    )
+    label_introductiv.pack()
+    afisare_treptata(label_introductiv, text_introductiv, interval=50)
 
     # Frame pentru butoane
     frame_butoane = Frame(radacina, bg="black")
@@ -292,25 +307,31 @@ def scena_inspecteaza_foaia():
     ).pack(pady=20)
 
 
-# Scena pentru "Ignoră foaia"
-def scena_ignora_foaia():
+def ai_citit_scrisoarea():
     for widget in radacina.winfo_children():
         widget.destroy()
     seteaza_fundal()
 
-    Label(
+    text_scrisoare = (
+        "După ce citești scrisoarea, frica ta devine realitate. Simți o prezență nevăzută care te urmărește din umbre,\n"
+        " iar timpul pare să se scurgă tot mai repede. Respiri greu, dar știi că trebuie să mergi mai departe."
+        "Iei cu tine lumânarea pe care ai vazut-o, singura ta sursă de lumină. Cu flacăra tremurândă în mână,\n"
+        " faci un pas înainte. Nu te poți opri acum. Cineva – sau ceva – te urmărește."
+    )
+
+    label_scrisoare = Label(
         radacina,
-        text=(
-            "După ce citești scrisoarea, frica ta devine realitate. Simți o prezență nevăzută care te urmărește din umbre,\n"
-            " iar timpul pare să se scurgă tot mai repede. Respiri greu, dar știi că trebuie să mergi mai departe."
-            "Iei cu tine lumânarea pe care ai vazut-o, singura ta sursă de lumină. Cu flacăra tremurândă în mână,\n"
-            " faci un pas înainte. Nu te poți opri acum. Cineva – sau ceva – te urmărește."
-        ),
+        text="",  # Text inițial gol
         font=("Lucida Handwriting", 16),
         wraplength=1100,
         pady=20,
         fg="white"
-    ).pack()
+    )
+    label_scrisoare.pack()
+
+    # Afișare treptată a textului
+    afisare_treptata(label_scrisoare, text_scrisoare, interval=50)
+
 
     Button(
         radacina,
@@ -328,18 +349,21 @@ def scena_hol():
         widget.destroy()
     seteaza_fundal()
 
-    Label(
+    text_hol = ("Te uiți în capătul holului și realizezi că acolo se află bucătăria.\n "
+                "Însă până acolo mai sunt două camere: una cu ușa închisă, iar cealaltă are ușa întredeschisă.\n"
+                "Unde dorești să intri prima dată?"
+                )
+    label_hol = Label(
         radacina,
-        text=(
-            "Te uiți în capătul holului și realizezi că acolo se află bucătăria. "
-            "Însă până acolo mai sunt două camere: una cu ușa închisă, iar cealaltă are ușa întredeschisă. "
-            "Unde dorești să intri prima dată?"
-        ),
+        text="",
         font=("Lucida Handwriting", 16),
         wraplength=800,
         pady=20,
-        fg="white"
-    ).pack()
+        fg="white",
+        bg="black"
+    )
+    label_hol.pack()
+    afisare_treptata(label_hol, text_hol)
 
     frame_butoane = Frame(radacina, bg="black")
     frame_butoane.pack(pady=10)
@@ -381,6 +405,9 @@ def scena_usa_inchisa():
 
 def scena_usa_intredeschisa():
     print("Se trece la scena cu ușa întredeschisă (de implementat)")
+
+def scena_ignora_foaia():
+    print("TREBUIE SA CONTINUI!")
 
 
 # Crearea ferestrei principale
