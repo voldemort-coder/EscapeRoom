@@ -20,6 +20,17 @@ def afisare_treptata(label, text, index=0, interval=50, callback=None):
         if callback:
             callback()
 
+def afiseaza_imagine_tkinter(cale_imagine):
+    try:
+        imagine = Image.open(cale_imagine)
+        imagine = imagine.resize((500, 400), Image.Resampling.LANCZOS)
+        imagine_tk = ImageTk.PhotoImage(imagine)
+        radacina.imagine_ref = imagine_tk
+        label_imagine = Label(radacina, image=imagine_tk, bg="black")
+        label_imagine.pack(pady=10)
+    except FileNotFoundError:
+        Label(radacina, text="Imaginea nu a fost găsită!", font=("Arial", 12), fg="red").pack()
+
 
 def seteaza_fundal():
     global fundal_horror_tk
@@ -30,21 +41,32 @@ def seteaza_fundal():
     label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
     radacina.fundal_ref = imagine_fundal_tk
 
-# Funcție pentru a începe jocul
-def incepe_joc():
-    for widget in radacina.winfo_children():
-        widget.destroy()
-    seteaza_fundal()
-    reda_sunet_fundal()  # Pornește sunetul de fundal
-    introducere()
-    afiseaza_imagine_tkinter("cabana.png")
-    adauga_butoane_dupa_imagine()
+def seteaza_fundal2():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("cabana.png")
+    imagine_fundal = imagine_fundal.resize((1600, 1200), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
 
-# Funcție pentru a închide jocul
-def inchide_joc():
-    opreste_sunet_fundal()  # Oprește sunetul de fundal
-    radacina.destroy()
+def seteaza_fundal_scrisoare1():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("scrisoare1.jpg")
+    imagine_fundal = imagine_fundal.resize((1170, 946), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
 
+def seteaza_fundal_scrisoare2():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("scrisoare2.jpg")
+    imagine_fundal = imagine_fundal.resize((1170, 946), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
 
 def meniu_principal():
     frame_meniu = Frame(radacina, bg="black", pady=20)
@@ -100,6 +122,19 @@ def meniu_principal():
     )
     buton_exit.grid(row=0, column=1, padx=5)
 
+# Funcție pentru a începe jocul
+def incepe_joc():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal2()
+    reda_sunet_fundal()  # Pornește sunetul de fundal
+    introducere()
+
+# Funcție pentru a închide jocul
+def inchide_joc():
+    opreste_sunet_fundal()  # Oprește sunetul de fundal
+    radacina.destroy()
+
 def introducere():
     label_intro = Label(
         radacina,
@@ -117,25 +152,15 @@ def introducere():
               "Pare singura opțiune... Ce vei face?")
     afisare_treptata(label_intro, text_intro, interval=50, callback=adauga_butoane_dupa_imagine)
 
-def afiseaza_imagine_tkinter(cale_imagine):
-    try:
-        imagine = Image.open(cale_imagine)
-        imagine = imagine.resize((500, 400), Image.Resampling.LANCZOS)
-        imagine_tk = ImageTk.PhotoImage(imagine)
-        radacina.imagine_ref = imagine_tk
-        label_imagine = Label(radacina, image=imagine_tk, bg="black")
-        label_imagine.pack(pady=10)
-    except FileNotFoundError:
-        Label(radacina, text="Imaginea nu a fost găsită!", font=("Arial", 12), fg="red").pack()
 
 def adauga_butoane_dupa_imagine():
     frame_butoane = Frame(radacina, bg="black")
-    frame_butoane.pack(pady=10)
+    frame_butoane.pack(pady=20)
 
     buton_intra_casa = Button(
         frame_butoane,
         text="Intră în casă",
-        font=("Chiller", 21),
+        font=("Chiller", 27),
         bg="#2e2e2e",  # gri inchis
         fg="white",
         command=scena_usa_incuiata
@@ -145,7 +170,7 @@ def adauga_butoane_dupa_imagine():
     buton_fugi = Button(
         frame_butoane,
         text="Fugi cât te țin picioarele",
-        font=("Chiller", 21),  # Font mai puternic pentru un impact mai mare
+        font=("Chiller", 27),  # Font mai puternic pentru un impact mai mare
         bg="#8b0000",  # Roșu închis
         fg="white",  # Text alb pentru contrast
         command=castiga_joc
@@ -171,10 +196,6 @@ def castiga_joc():
 
 
 def scena_usa_incuiata():
-    pygame.mixer.init()
-    sunet_forta_usa = pygame.mixer.Sound("door_forced.mp3")
-    sunet_forta_usa.play()
-
     continua_joc()
     seteaza_fundal()
 
@@ -190,17 +211,18 @@ def scena_usa_incuiata():
         radacina,
         text="",  # Inițial, textul este gol
         font=("Chiller", 33),
-        wraplength=1100,
+        wraplength=1300,
         pady=20,
         fg="white"
     )
     label_scrisoare.pack()
-    afisare_treptata(label_scrisoare, text_scrisoare, interval=50)
+    afisare_treptata(label_scrisoare, text_scrisoare, interval=50, callback=continua_inspectia)
 
+def continua_inspectia():
     buton_continua = Button(
         radacina,
         text="Continuă să inspectezi casa",
-        font=("Lucida Handwriting", 21),
+        font=("Lucida Handwriting", 19),
         bg="#333333",  # Gri închis pentru un fundal sumbru
         fg="white",  # Text alb pentru contrast
         activebackground="#444444",  # Fundal mai deschis când butonul este apăsat
@@ -214,31 +236,42 @@ def scena_reguli():
         widget.destroy()
     seteaza_fundal()
 
-    Label(
-        radacina,
-        text=(
-            "Pentru a evada din casă, trebuie să îți folosești inteligența și să rezolvi puzzle-urile pregătite pentru tine,\n"
-            " cât mai rapid. Ai la dispoziție 30 de minute pentru a scăpa, iar timpul începe să se scurgă din momentul în care \n"
-            "începi prima probă. Fii atent! Fiecare greșeală te va costa un minut din timpul prețios. Tensiunea crește cu fiecare\n"
-            " secundă, iar evadarea depinde doar de tine.\n"
-            "Ești pregătit să înfrunți provocarea și să începi jocul?"
-        ),
-        font=("Lucida Handwriting", 21),
-        wraplength=1100,
-        pady=20,
-        fg="red"
-    ).pack()
+    frame_reguli = Frame(radacina, bg="black", pady=20)
+    frame_reguli.pack(expand=True)
 
-    Button(
-        radacina,
+    label_bine_venit = Label(
+        frame_reguli,
+        text="Pentru a evada din casă, trebuie să îți folosești inteligența și să rezolvi\n"
+             " puzzle-urile pregătite pentru tine cât mai rapid. \n"
+             "Ai la dispoziție 30 de minute pentru a scăpa, iar timpul începe să se scurgă \n"
+             "din momentul în care începi prima probă. \n"
+             "Fii atent! Fiecare greșeală te va costa un minut din timpul prețios. \n"
+             "Tensiunea crește cu fiecare secundă, iar evadarea depinde doar de tine.\n"
+            "Ești pregătit să înfrunți provocarea și să începi jocul?",
+        font=("Arial", 27),
+        fg="#FF0000",
+        pady=10
+    )
+    label_bine_venit.pack()
+
+    frame_buton = Frame(frame_reguli, bg="black")
+    frame_buton.pack(pady=10)
+
+    buton_start = Button(
+        frame_buton,
         text="Începe jocul",
-        font=("Arial", 37),
-        bg="#8B0000",  # Roșu închis, pentru a da o senzație de urgență și panică
-        fg="white",  # Text alb pentru contrast
-        activebackground="#B22222",  # Roșu mai deschis când butonul este apăsat
-        activeforeground="#FFFF00",  # Text galben aprins când este apăsat, pentru un efect de atenționare
-        command=scena_prima_proba  # Legătură corectă către prima probă
-    ).pack(pady=20)
+        font=("Lucida Handwriting", 29, "bold"),
+        width=12,
+        command=scena_prima_proba,
+        bg="#330000",
+        fg="#FF0000",
+        activebackground="#660000",
+        activeforeground="#FFFFFF",
+        relief="groove",
+        bd=3
+    )
+    buton_start.grid(row=0, column=0, padx=5)
+
 
 def scena_prima_proba():
     # Curățăm fereastra pentru prima probă
@@ -258,15 +291,15 @@ def scena_prima_proba():
     label_introductiv = Label(
         radacina,
         text="",  # Textul este inițial gol
-        font=("Lucida Handwriting", 29),
+        font=("Chiller", 33),
         wraplength=1100,
         pady=20,
         fg="white"
     )
     label_introductiv.pack()
-    afisare_treptata(label_introductiv, text_introductiv, interval=50)
+    afisare_treptata(label_introductiv, text_introductiv, interval=50, callback=butoane_scrisoare)
 
-    # Frame pentru butoane
+def butoane_scrisoare():
     frame_butoane = Frame(radacina, bg="black")
     frame_butoane.pack(pady=10)
 
@@ -274,19 +307,19 @@ def scena_prima_proba():
     Button(
         frame_butoane,
         text="Inspectează foaia",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 17),
         bg="#003366",  # Albastru închis, pentru a crea o atmosferă misterioasă și rece
         fg="white",  # Text alb pentru contrast
         activebackground="#000080",  # Culoare mai închisă când este apăsat
         activeforeground="#FFFF00",  # Text galben când este apăsat, pentru un efect de atenționare
-        command=scena_inspecteaza_foaia
+        command=scena_inspecteaza_foaia1
     ).pack(side="left", padx=10)
 
     # Buton pentru "Ignoră foaia"
     Button(
         frame_butoane,
         text="Ignoră foaia",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 17),
         bg="#8B0000",  # Roșu închis, pentru a crea un sentiment de pericol
         fg="white",  # Text alb pentru contrast
         activebackground="#B22222",  # Roșu mai deschis când este apăsat
@@ -296,37 +329,51 @@ def scena_prima_proba():
 
 
 # Scena pentru "Inspectează foaia"
-def scena_inspecteaza_foaia():
+def scena_inspecteaza_foaia1():
     for widget in radacina.winfo_children():
         widget.destroy()
-    seteaza_fundal()
-
-    afiseaza_imagine_tkinter("planul_casei.jpg")  # Asigură-te că imaginea există
-
-    Label(
-        radacina,
-        text=(
-            "După ce citești scrisoarea, frica ta devine realitate. Simți o prezență nevăzută care te urmărește din umbre,\n"
-            " iar timpul pare să se scurgă tot mai repede. Respiri greu, dar știi că trebuie să mergi mai departe."
-            "iei cu tine lumânarea pe care ai vazut-o, singura ta sursă de lumină. Cu flacăra tremurândă în mână,\n"
-            " faci un pas înainte. Nu te poți opri acum. Cineva – sau ceva – te urmărește."
-        ),
-        font=("Lucida Handwriting", 29),
-        wraplength=800,
-        pady=20,
-        fg="white"
-    ).pack()
+    seteaza_fundal_scrisoare1()
 
     Button(
         radacina,
-        text="Continuă povestea",
-        font=("Arial", 21),
+        text="Partea 2",
+        font=("Lucida Handwriting", 19),
         bg="#4B0082",  # Violet închis pentru un efect misterios și sumbru
         fg="white",  # Text alb pentru contrast puternic
         activebackground="#800080",  # Violet mai intens când este apăsat, pentru a adânci senzația de tensiune
         activeforeground="#FFFF00",  # Text galben când este apăsat, pentru un efect de alertă
-        command=scena_hol  # Legătura corectă cu scena holului
+        command=scena_inspecteaza_foaia2  # Legătura corectă cu scena holului
     ).pack(pady=20)
+
+def scena_inspecteaza_foaia2():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal_scrisoare2()
+
+    frame_foaia2 = Frame(radacina, bg="black")
+    frame_foaia2.pack(pady=10)
+
+    Button(
+        frame_foaia2,
+        text="Partea 1",
+        font=("Lucida Handwriting", 19),
+        bg="#003366",  # Albastru închis, pentru a crea o atmosferă misterioasă și rece
+        fg="white",  # Text alb pentru contrast
+        activebackground="#000080",  # Culoare mai închisă când este apăsat
+        activeforeground="#FFFF00",  # Text galben când este apăsat, pentru un efect de atenționare
+        command=scena_inspecteaza_foaia1
+    ).pack(side="left", padx=10)
+
+    Button(
+        frame_foaia2,
+        text="Mai departe",
+        font=("Lucida Handwriting", 19),
+        bg="#8B0000",  # Roșu închis, pentru a crea un sentiment de pericol
+        fg="white",  # Text alb pentru contrast
+        activebackground="#B22222",  # Roșu mai deschis când este apăsat
+        activeforeground="#FFFF00",  # Text galben aprins când este apăsat
+        command=ai_citit_scrisoarea
+    ).pack(side="left", padx=10)
 
 
 def ai_citit_scrisoarea():
@@ -344,7 +391,7 @@ def ai_citit_scrisoarea():
     label_scrisoare = Label(
         radacina,
         text="",  # Text inițial gol
-        font=("Lucida Handwriting", 29),
+        font=("Chiller", 33),
         wraplength=1100,
         pady=20,
         fg="white"
@@ -352,12 +399,13 @@ def ai_citit_scrisoarea():
     label_scrisoare.pack()
 
     # Afișare treptată a textului
-    afisare_treptata(label_scrisoare, text_scrisoare, interval=50)
+    afisare_treptata(label_scrisoare, text_scrisoare, interval=50, callback=continua_povestea)
 
+def continua_povestea():
     Button(
         radacina,
         text="Continuă povestea",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 19),
         bg="#2F4F4F",  # O nuanță de verde închis pentru un efect sumbru
         fg="white",  # Text alb pentru contrast
         activebackground="#A52A2A",
@@ -380,22 +428,23 @@ def scena_hol():
     label_hol = Label(
         radacina,
         text="",
-        font=("Lucida Handwriting", 29),
+        font=("Chiller", 33),
         wraplength=800,
         pady=20,
         fg="white",
         bg="black"
     )
     label_hol.pack()
-    afisare_treptata(label_hol, text_hol)
+    afisare_treptata(label_hol, text_hol, interval=50, callback=decizie_incapere)
 
+def decizie_incapere():
     frame_butoane = Frame(radacina, bg="black")
     frame_butoane.pack(pady=10)
 
     Button(
         frame_butoane,
         text="Bucătărie",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 19),
         bg="#2F4F4F",  # Gri închis pentru un fundal mai sumbru
         fg="white",  # Text alb pentru contrast puternic
         activebackground="#8B0000",  # Roșu închis când este apăsat pentru a adăuga un efect de pericol
@@ -406,7 +455,7 @@ def scena_hol():
     Button(
         frame_butoane,
         text="Camera cu ușa închisă",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 19),
         bg="#8B0000",  # Roșu închis, o culoare care sugerează pericol sau groază
         fg="white",  # Text alb pentru contrast
         activebackground="#A52A2A",  # Roșu-maro pentru un efect de alarmă când butonul este apăsat
@@ -417,7 +466,7 @@ def scena_hol():
     Button(
         frame_butoane,
         text="Camera cu ușa întredeschisă",
-        font=("Arial", 21),
+        font=("Lucida Handwriting", 19),
         bg="#A9A9A9",  # Gri deschis pentru un ton de întuneric, dar nu la fel de sumbru ca negrul total
         fg="black",  # Text negru pentru un contrast puternic
         activebackground="#8B0000",  # Roșu închis pentru o reacție de alertă
