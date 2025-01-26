@@ -5,7 +5,7 @@ import pygame
 # Funcție pentru a reda sunetul de fundal
 def reda_sunet_fundal():
     pygame.mixer.init()  # Inițializează mixerul
-    pygame.mixer.music.load("fundal_horror.mp3.mp3")  # Înlocuiește cu calea fișierului tău audio
+    pygame.mixer.music.load("fundal_horror.mp3.mp3")
     pygame.mixer.music.play(-1)  # Redă în buclă (-1 pentru repetare infinită)
 
 # Funcție pentru a opri sunetul de fundal
@@ -44,7 +44,7 @@ def seteaza_fundal():
 def seteaza_fundal2():
     global fundal_horror_tk
     imagine_fundal = Image.open("cabana.png")
-    imagine_fundal = imagine_fundal.resize((1600, 1200), Image.Resampling.LANCZOS)
+    imagine_fundal = imagine_fundal.resize((1600, 1100), Image.Resampling.LANCZOS)
     imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
     label_fundal = Label(radacina, image=imagine_fundal_tk)
     label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
@@ -53,7 +53,7 @@ def seteaza_fundal2():
 def seteaza_fundal_scrisoare1():
     global fundal_horror_tk
     imagine_fundal = Image.open("scrisoare1.jpg")
-    imagine_fundal = imagine_fundal.resize((1170, 946), Image.Resampling.LANCZOS)
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
     imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
     label_fundal = Label(radacina, image=imagine_fundal_tk)
     label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
@@ -62,7 +62,43 @@ def seteaza_fundal_scrisoare1():
 def seteaza_fundal_scrisoare2():
     global fundal_horror_tk
     imagine_fundal = Image.open("scrisoare2.jpg")
-    imagine_fundal = imagine_fundal.resize((1170, 946), Image.Resampling.LANCZOS)
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
+
+def seteaza_fundal_scrisp():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("scrisp1.jpg")
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
+
+def fundal_tablouri():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("fundal_tablouri.jpg")
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
+
+def fundal_camera_inchisa():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("camera_inchisa.jpg")
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
+    imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
+    label_fundal = Label(radacina, image=imagine_fundal_tk)
+    label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
+    radacina.fundal_ref = imagine_fundal_tk
+
+def fundal_foaie():
+    global fundal_horror_tk
+    imagine_fundal = Image.open("working.png")
+    imagine_fundal = imagine_fundal.resize((1600, 800), Image.Resampling.LANCZOS)
     imagine_fundal_tk = ImageTk.PhotoImage(imagine_fundal)
     label_fundal = Label(radacina, image=imagine_fundal_tk)
     label_fundal.place(x=0, y=0, relwidth=1, relheight=1)
@@ -161,7 +197,7 @@ def adauga_butoane_dupa_imagine():
         frame_butoane,
         text="Intră în casă",
         font=("Chiller", 27),
-        bg="#2e2e2e",  # gri inchis
+        bg="#8b0000",  # gri inchis
         fg="white",
         command=scena_usa_incuiata
     )
@@ -171,7 +207,7 @@ def adauga_butoane_dupa_imagine():
         frame_butoane,
         text="Fugi cât te țin picioarele",
         font=("Chiller", 27),  # Font mai puternic pentru un impact mai mare
-        bg="#8b0000",  # Roșu închis
+        bg="#2e2e2e",  # Roșu închis
         fg="white",  # Text alb pentru contrast
         command=castiga_joc
     )
@@ -479,11 +515,183 @@ def decizie_incapere():
 def scena_bucatarie():
     print("Se trece la scena bucătărie (de implementat)")
 
+
+
+
+
 def scena_usa_inchisa():
     print("Se trece la scena cu ușa închisă (de implementat)")
 
+
+
+
+
+
 def scena_usa_intredeschisa():
-    print("Se trece la scena cu ușa întredeschisă (de implementat)")
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal()
+    label_usa_intredeschisa = Label(
+        radacina,
+        text="",
+        font=("Chiller", 29),
+        pady=10
+    )
+    label_usa_intredeschisa.pack(pady=10)
+    text_usa_intredeschisa = ("Pășești în camera întunecată, ghidat de lumina palidă a lumânării din mâna ta. \n"
+                              "Flacăra tremură, aruncând umbre bizare pe pereții reci și goi. Aerul e greu,\n"
+                              " încărcat de o tensiune nevăzută. Privirea îți este atrasă de un perete pe care\n"
+                              " stau așezate mai multe tablouri, toate într-un mod ciudat, aproape nefiresc. \n"
+                              "Simți un fior rece trecându-ți pe șira spinării, iar parcă din depărtare auzi un\n"
+                              "murmur slab, dar nu poți înțelege ce spune.")
+    afisare_treptata(label_usa_intredeschisa, text_usa_intredeschisa, interval=50, callback=vezi_tablouri)
+def vezi_tablouri():
+        buton_vezi_tablouri = Button(
+            radacina,
+            text="Vezi tablourile",
+            font=("Lucida Handwriting", 19),
+            bg="#333333",  # Gri închis pentru un fundal sumbru
+            fg="white",  # Text alb pentru contrast
+            activebackground="#444444",  # Fundal mai deschis când butonul este apăsat
+            activeforeground="#ff0000",  # Culoare roșie pentru text când este apăsat
+            command=imagine_tablouri
+        )
+        buton_vezi_tablouri.pack(pady=20)
+
+def imagine_tablouri():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    fundal_tablouri()
+
+    Button(
+        radacina,
+        text="Continuă",
+        font=("Lucida Handwriting", 19),
+        bg="#4B0082",  # Violet închis pentru un efect misterios și sumbru
+        fg="white",  # Text alb pentru contrast puternic
+        activebackground="#800080",  # Violet mai intens când este apăsat, pentru a adânci senzația de tensiune
+        activeforeground="#FFFF00",  # Text galben când este apăsat, pentru un efect de alertă
+        command=observi_peretele
+    ).pack(side="top", pady=20)
+
+def observi_peretele():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal()
+    label_observi_peretele = Label(
+        radacina,
+        text="",
+        font=("Chiller", 29),
+        pady=10
+    )
+    label_observi_peretele.pack(pady=10)
+    text_observi_peretele = ("Privind atent la tablouri, începi să te întrebi dacă felul în care sunt aranjate\n"
+                             " ascunde un mesaj. Într-un moment de luciditate, oglinda din fața ta îți atrage atenția.\n"
+                             " În reflexia ei, pe peretele din spatele tău, se întrezărește un mesaj misterios.\n"
+                             " Te întorci încet, dorind să descoperi ce scrie.")
+    afisare_treptata(label_observi_peretele, text_observi_peretele, interval=50, callback=vezi_scrisul)
+
+def vezi_scrisul():
+    buton_vezi_scrisul = Button(
+        radacina,
+        text="Întoarce-te",
+        font=("Lucida Handwriting", 19),
+        bg="#333333",  # Gri închis pentru un fundal sumbru
+        fg="white",  # Text alb pentru contrast
+        activebackground="#444444",  # Fundal mai deschis când butonul este apăsat
+        activeforeground="#ff0000",  # Culoare roșie pentru text când este apăsat
+        command=scris_perete
+    )
+    buton_vezi_scrisul.pack(pady=20)
+
+def scris_perete():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal_scrisp()
+    Button(
+        radacina,
+        text="Continuă",
+        font=("Lucida Handwriting", 19),
+        bg="#4B0082",  # Violet închis pentru un efect misterios și sumbru
+        fg="white",  # Text alb pentru contrast puternic
+        activebackground="#800080",  # Violet mai intens când este apăsat, pentru a adânci senzația de tensiune
+        activeforeground="#FFFF00",  # Text galben când este apăsat, pentru un efect de alertă
+        command=nerealizare
+    ).pack(side="top", pady=20)
+
+def nerealizare():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    seteaza_fundal()
+    label_nerealizare = Label(
+        radacina,
+        text="",
+        font=("Chiller", 29),
+        pady=10
+    )
+    label_nerealizare.pack(pady=10)
+    text_nerealizare = ("Te apropii de perete, încercând să descifrezi mesajul. Literele par confuze,\n"
+                             " amestecate într-un mod care îți scapă. Îți încordezi privirea, dar cu cât te \n"
+                             "concentrezi mai mult, cu atât mesajul devine mai enigmatic. Timpul trece,\n"
+                             " iar o senzație de nerăbdare începe să te cuprindă. În mintea ta se strecoară un gând:\n"
+                             " nu-ți poți permite să rămâi blocat aici. Cu o ultimă privire spre perete,\n"
+                             " decizi să mergi în cealaltă cameră. Ceva îți spune că răspunsurile s-ar putea\n"
+                             " ascunde acolo – iar fiecare secundă contează.")
+    afisare_treptata(label_nerealizare, text_nerealizare, interval=50, callback=pleci)
+
+def pleci():
+    buton_pleci = Button(
+        radacina,
+        text="Du-te în cealaltă cameră",
+        font=("Lucida Handwriting", 19),
+        bg="#333333",  # Gri închis pentru un fundal sumbru
+        fg="white",  # Text alb pentru contrast
+        activebackground="#444444",  # Fundal mai deschis când butonul este apăsat
+        activeforeground="#ff0000",  # Culoare roșie pentru text când este apăsat
+        command=scena_usa_intredeschisa
+    )
+    buton_pleci.pack(pady=20)
+
+def intrare():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    fundal_camera_inchisa()
+    label_intrare = Label(
+        radacina,
+        text="",
+        font=("Chiller", 29),
+        pady=10
+    )
+    label_intrare.pack(pady=10)
+    text_intrare = ("Ușa scârțâie în timp ce o deschizi încet, sunetul făcându-ți inima să bată mai tare. \n"
+                    "Înăuntru, ochii îți cad imediat pe o statuie care te face să tresari—pentru o clipă,\n"
+                    " ai crezut că e un spirit. Pe pereți, ceasuri cu bufnițe stau înșirate, toate arătând\n"
+                    " ore diferite. Nu înțelegi legătura, dar simți că e ceva important. Privirea ți se oprește\n"
+                    " în spatele statuii, unde zărești o bucată de hârtie. O iei cu mâinile tremurânde,\n"
+                    " întunericul din cameră părând să se apropie de tine...")
+    afisare_treptata(label_intrare, text_intrare, interval=50, callback=buton_citeste)
+
+def buton_citeste():
+    buton_pleci = Button(
+        radacina,
+        text="Citește",
+        font=("Lucida Handwriting", 19),
+        bg="#333333",  # Gri închis pentru un fundal sumbru
+        fg="white",  # Text alb pentru contrast
+        activebackground="#444444",  # Fundal mai deschis când butonul este apăsat
+        activeforeground="#ff0000",  # Culoare roșie pentru text când este apăsat
+        command=scena_usa_intredeschisa
+    )
+    buton_pleci.pack(pady=20)
+
+def foaie():
+    for widget in radacina.winfo_children():
+        widget.destroy()
+    fundal_foaie()
+
+
+
+
 
 def scena_ignora_foaia():
     print("TREBUIE SA CONTINUI!")
