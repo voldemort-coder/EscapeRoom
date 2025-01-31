@@ -1,32 +1,59 @@
 import math
 
-class Shape:
-    def area(self):
-        raise NotImplementedError("Metoda area trebuie implementată în subclase.")
-
-class Circle(Shape):
-    def __init__(self, radius):
-        self.radius = radius
-
-    def area(self):
-        return math.pi * self.radius ** 2
+# Clasa de bază Formă
+class Forma:
+    def aria(self):
+        """Metodă abstractă care trebuie să fie implementată în subclase."""
+        pass
 
     def __str__(self):
-        return f"Circle with radius {self.radius} has area {self.area():.2f}"
+        """Reprezentare textuală generică pentru o formă geometrică."""
+        return "Formă cu proprietăți necunoscute"
 
-class Rectangle(Shape):
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
+# Clasa Cerc care moștenește de la Forma
+class Cerc(Forma):
+    def __init__(self, raza):
+        self.raza = raza
 
-    def area(self):
-        return self.width * self.height
+    def aria(self):
+        """Calculăm aria cercului."""
+        return math.pi * self.raza ** 2
 
     def __str__(self):
-        return f"Rectangle with width {self.width} and height {self.height} has area {self.area():.2f}"
+        """Reprezentarea textuală pentru un cerc."""
+        return f"Cerc cu raza {self.raza} are aria {self.aria():.2f}"
 
-# Exemplu de utilizare
-circle = Circle(5)
-rectangle = Rectangle(10, 4)
-print(circle)    # Output: "Circle with radius 5 has area 78.54"
-print(rectangle) # Output: "Rectangle with width 10 and height 4 has area 40.00"
+# Clasa Dreptunghi care moștenește de la Forma
+class Dreptunghi(Forma):
+    def __init__(self, latime, inaltime):
+        self.latime = latime
+        self.inaltime = inaltime
+
+    def aria(self):
+        """Calculăm aria dreptunghiului."""
+        return self.latime * self.inaltime
+
+    def __str__(self):
+        """Reprezentarea textuală pentru un dreptunghi."""
+        return f"Dreptunghi cu lățimea {self.latime} și înălțimea {self.inaltime} are aria {self.aria()}"
+
+# Funcția principală pentru testare
+def main():
+    # Cerem utilizatorului să introducă datele pentru cerc
+    raza = float(input("Introdu raza cercului: "))
+    cerc = Cerc(raza)  # Creăm instanța de Cerc
+
+    # Cerem utilizatorului să introducă datele pentru dreptunghi
+    latime = float(input("Introdu lățimea dreptunghiului: "))
+    inaltime = float(input("Introdu înălțimea dreptunghiului: "))
+    dreptunghi = Dreptunghi(latime, inaltime)  # Creăm instanța de Dreptunghi
+
+    # Afișăm informațiile despre forme
+    print("\nDetalii cerc:")
+    print(cerc)  # Afișăm detaliile cercului
+
+    print("\nDetalii dreptunghi:")
+    print(dreptunghi)  # Afișăm detaliile dreptunghiului
+
+if __name__ == "__main__":
+    main()
